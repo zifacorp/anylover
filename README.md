@@ -2,9 +2,16 @@
 
 让你在 Codex、ChatGPT、Claude Code、WorkBuddy 和未来的手机 App 里，继续和“同一个”AI 伴侣相处。
 
+[English](README.en.md) · [安全说明](SECURITY.md) · [开发路线图](docs/03-roadmap.md)
+
 你换了模型、换了工具或开了新会话，伴侣仍可以在你允许的范围内记得你的偏好、边界和共同经历。记忆默认留在你的电脑上，也可以制作加密备份；它不属于某一家模型公司。
 
 > 当前版本是可运行的 M0 框架，适合开发者和早期体验者。它还不是完整的消费级聊天 App。
+
+<!-- 由 scripts/make_demo_gif.py 基于真实 CLI 输出生成 -->
+![AnyLover demo](docs/assets/demo.gif)
+
+<sub>真实的 `anylover` 输出，未经改写（过长的段落用 `…` 省略，但不替换内容）。这段演示的是记忆层本身；Codex 与 Claude Code 真实界面的录屏还没做。重新生成：`python scripts/make_demo_gif.py`。</sub>
 
 ## 当前已经实现
 
