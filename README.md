@@ -11,8 +11,6 @@
 <!-- 由 scripts/make_demo_gif.py 基于真实 CLI 输出生成 -->
 ![AnyLover demo](docs/assets/demo.gif)
 
-<sub>真实的 `anylover` 输出，未经改写（过长的段落用 `…` 省略，但不替换内容）。这段演示的是记忆层本身；Codex 与 Claude Code 真实界面的录屏还没做。重新生成：`python scripts/make_demo_gif.py`。</sub>
-
 ## 当前已经实现
 
 - ✅ 同一份本地伴侣身份和长期记忆
