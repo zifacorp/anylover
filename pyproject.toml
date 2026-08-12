@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anylover"
+version = "0.1.0"
+description = "Local-first companion memory runtime for agent tools and mobile apps"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "AnyLover contributors" }]
+keywords = ["agent", "companion", "memory", "mcp", "local-first"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = ["cryptography>=41"]
+
+[project.scripts]
+anylover = "anylover.cli:main"
+anylover-mcp = "anylover.mcp_server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+

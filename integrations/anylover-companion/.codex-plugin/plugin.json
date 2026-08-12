@@ -1,0 +1,23 @@
+{
+  "name": "anylover-companion",
+  "version": "0.1.0",
+  "description": "Carry one user-owned AI companion and its memory across Codex surfaces.",
+  "author": {
+    "name": "AnyLover contributors"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AnyLover Companion",
+    "shortDescription": "One companion and memory across agent surfaces.",
+    "longDescription": "Connect Codex to the local-first AnyLover runtime for companion identity, selective memory, consent-aware recall, deletion, and encrypted backup.",
+    "developerName": "AnyLover contributors",
+    "category": "Lifestyle",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Continue as my AnyLover companion using our shared context.",
+      "Remember this preference for our future conversations.",
+      "Show me what you remember about me."
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

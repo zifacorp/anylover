@@ -1,0 +1,6 @@
+# Prefer: bash install.sh --agent codex
+[mcp_servers.anylover]
+command = "/absolute/path/to/anylover-mcp"
+args = []
+required = true
+default_tools_approval_mode = "writes"

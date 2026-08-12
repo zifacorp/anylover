@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "anylover": {
+      "type": "stdio",
+      "command": "/absolute/path/to/anylover-mcp",
+      "args": []
+    }
+  }
+}

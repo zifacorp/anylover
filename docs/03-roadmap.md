@@ -1,0 +1,53 @@
+# AnyLover 路线图
+
+状态说明：`✅` 已实现并经过当前仓库验证；`⬜` 尚未实现，属于后续计划。
+
+## M0：可运行框架
+
+- ✅ 本地 SQLite 记忆、来源、同意、去重和替代模型
+- ✅ 默认“毒舌但不恶毒”的 Companion profile、表达风格与安全契约
+- ✅ Fact、Preference、Boundary、Event、Reflection 五类记忆
+- ✅ CLI、STDIO MCP 和带鉴权 HTTP API
+- ✅ 内容清除后的 tombstone 与审计事件
+- ✅ scrypt + AES-256-GCM 加密备份、恢复、HTTPS 上传和下载
+- ✅ Codex、ChatGPT 桌面端、Claude Code、WorkBuddy 和普通 CLI 接入
+- ✅ 自动检测 Agent 的一键安装脚本、绝对 MCP 路径和安全配置合并
+- ✅ Codex/ChatGPT Plugin scaffold 与标准 Agent Skill
+- ✅ 11 项自动化测试及隔离环境三 Agent 安装验证
+
+## M1：记忆质量与本地产品化
+
+- ⬜ `MemoryEngine` 插件接口和 ZifaMem adapter
+- ⬜ 会话结束时的候选记忆提取与用户确认队列
+- ⬜ 时间、实体、矛盾和 supersession 评测
+- ⬜ SQLite FTS5 / embedding 混合检索与可解释分数
+- ⬜ SQLCipher 或平台 Keychain 封装的数据库静态加密
+- ⬜ macOS 菜单栏/桌面壳与可视化记忆检查器
+- ⬜ LoCoMo、LongMemEval 和自建关系连续性回归集
+
+## M2：多设备、ChatGPT Web 与手机端
+
+- ⬜ 远程 Streamable HTTP MCP gateway
+- ⬜ 设备注册、短期 access token、撤销和速率限制
+- ⬜ 端到端加密增量事件日志，不把明文交给同步服务
+- ⬜ tombstone 跨设备传播、冲突合并、时钟偏差和重放保护
+- ⬜ ChatGPT Web Plugin 发布与 OAuth
+- ⬜ iOS / Android SDK 和最小聊天 App
+- ⬜ 手机端设备密钥管理、备份恢复和生物识别解锁
+
+## M3：可信情感陪伴
+
+- ⬜ 共同叙事、关系边界与情绪动力的可解释模型
+- ⬜ 反操纵设计审计：排他、内疚、付费亲密和 streak 压力
+- ⬜ 青少年、危机、哀伤和高依赖场景的专家评审
+- ⬜ 用户可见的“为什么记住 / 为什么召回”与一键纠错
+- ⬜ 导出、账户迁移、删除 SLA 和第三方安全评估
+
+## 近期产品验证
+
+- ⬜ 让同一位用户在 Codex 与 Claude Code 中各完成一次陪伴对话
+- ⬜ 验证第二端能召回第一端经用户同意保存的偏好
+- ⬜ 验证未保存的原始对话不会被另一端召回
+- ⬜ 创建加密备份，在新目录恢复并重复检索
+
+这个窄闭环会同时检验“同一个伴侣”、选择性记忆和可迁移性，通过后再进入 M1 的记忆质量建设。

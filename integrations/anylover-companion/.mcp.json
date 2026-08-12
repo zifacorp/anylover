@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "anylover": {
+      "type": "stdio",
+      "command": "anylover-mcp",
+      "args": []
+    }
+  }
+}

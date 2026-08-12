@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.venv/
+dist/
+build/
+.DS_Store
+.anylover/
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+*.albackup
+
+# Agent-local settings (machine-specific, never shared)
+.claude/settings.local.json
+.codex/settings.local.json
+

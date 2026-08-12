@@ -1,0 +1,6 @@
+interface:
+  display_name: "AnyLover Companion"
+  short_description: "Automatically recall one companion across agents"
+  default_prompt: "Use $anylover-companion to continue naturally and retrieve relevant shared context automatically."
+policy:
+  allow_implicit_invocation: true

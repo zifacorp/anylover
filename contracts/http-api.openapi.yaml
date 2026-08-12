@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: AnyLover Local API
+  version: 0.1.0
+  description: Local-first API used by mobile clients and future remote MCP gateways.
+servers:
+  - url: http://127.0.0.1:8765
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    MemoryWrite:
+      type: object
+      required: [content]
+      properties:
+        content: { type: string, minLength: 2, maxLength: 4000 }
+        kind:
+          type: string
+          enum: [fact, preference, boundary, event, reflection]
+          default: fact
+        importance: { type: number, minimum: 0, maximum: 1, default: 0.5 }
+        sensitivity:
+          type: string
+          enum: [normal, sensitive, secret]
+          default: normal
+        consent_basis:
+          type: string
+          enum: [explicit, routine, inferred]
+          default: explicit
+        source_surface: { type: string, default: mobile }
+        source_session_id: { type: string }
+        supersedes_id: { type: string, format: uuid }
+paths:
+  /health:
+    get:
+      security: []
+      responses:
+        "200": { description: Healthy }
+  /v1/companion:
+    get:
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Companion profile }
+    post:
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Updated companion profile }
+  /v1/context:
+    get:
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: query, in: query, schema: { type: string } }
+        - { name: limit, in: query, schema: { type: integer, default: 12 } }
+        - { name: max_chars, in: query, schema: { type: integer, default: 6000 } }
+      responses:
+        "200": { description: Prompt-ready context }
+  /v1/memories:
+    get:
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Memory list }
+    post:
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MemoryWrite" }
+      responses:
+        "201": { description: Memory stored }
+  /v1/memories/{memory_id}:
+    delete:
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: memory_id, in: path, required: true, schema: { type: string, format: uuid } }
+        - { name: X-AnyLover-Confirm, in: header, required: true, schema: { type: string, const: DELETE } }
+      responses:
+        "200": { description: Memory content deleted and tombstone retained }
+  /v1/sessions:
+    post:
+      security: [{ bearerAuth: [] }]
+      responses:
+        "201": { description: Session provenance record created }
