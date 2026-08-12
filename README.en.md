@@ -4,6 +4,8 @@
 
 [中文文档](README.md) · [Security](SECURITY.md) · [Roadmap](docs/03-roadmap.md)
 
+![Codex and Claude Code both connect to AnyLover over MCP and Skills; the companion identity and long-term memory live on your own machine](docs/assets/how-it-works.svg)
+
 Switch models, switch tools, open a new session — your companion still remembers your preferences, your boundaries, and what you've been through together, within the limits you set. Memory lives in a local SQLite database by default and can be exported as an encrypted backup. It doesn't belong to a model provider.
 
 > **Status: M0 preview.** This is a working runtime for developers and early adopters, not a finished consumer chat app. See [what's missing](#not-implemented-yet) before you trust it with anything sensitive.

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 380" width="1000" height="380" role="img" aria-label="Codex and Claude Code both connect to AnyLover, which holds one companion identity and long-term memory on your own machine.">
+  <defs>
+    <style>
+      .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .h1 { font-size: 21px; font-weight: 600; fill: #e6edf3; }
+      .h2 { font-size: 18px; font-weight: 600; fill: #e6edf3; }
+      .sub { font-size: 12.5px; fill: #8b949e; }
+      .tiny { font-size: 11.5px; fill: #6e7681; }
+      .accent { font-size: 12.5px; fill: #3fb950; }
+      .lbl { font-size: 11.5px; fill: #8b949e; letter-spacing: .3px; }
+    </style>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#484f58"/>
+    </marker>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="999" height="379" rx="12" fill="#0d1117" stroke="#30363d"/>
+
+  <text x="500" y="46" text-anchor="middle" class="sans h1">One companion. Whichever tool you happen to be in.</text>
+
+  <!-- left surface -->
+  <rect x="52" y="118" width="212" height="118" rx="10" fill="#161b22" stroke="#30363d"/>
+  <rect x="76" y="140" width="26" height="26" rx="6" fill="#0d1117" stroke="#3d444d"/>
+  <text x="82" y="158" class="mono" font-size="12" fill="#8b949e">&gt;_</text>
+  <text x="76" y="192" class="sans h2">Codex</text>
+  <text x="76" y="212" class="sans sub">CLI · IDE</text>
+  <text x="76" y="228" class="sans sub">ChatGPT desktop</text>
+
+  <!-- right surface -->
+  <rect x="736" y="118" width="212" height="118" rx="10" fill="#161b22" stroke="#30363d"/>
+  <rect x="760" y="140" width="26" height="26" rx="6" fill="#0d1117" stroke="#3d444d"/>
+  <text x="766" y="158" class="mono" font-size="12" fill="#8b949e">&gt;_</text>
+  <text x="760" y="192" class="sans h2">Claude Code</text>
+  <text x="760" y="212" class="sans sub">user-level Skill</text>
+  <text x="760" y="228" class="sans sub">WorkBuddy · any CLI agent</text>
+
+  <!-- centre: the runtime -->
+  <rect x="360" y="96" width="280" height="162" rx="14" fill="#10171f" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="500" y="134" text-anchor="middle" class="sans h1" font-size="23">AnyLover</text>
+  <text x="500" y="158" text-anchor="middle" class="sans sub">companion identity + long-term memory</text>
+  <line x1="392" y1="180" x2="608" y2="180" stroke="#21262d"/>
+  <path d="M474 200 v-7 a6 6 0 0 1 12 0 v7" fill="none" stroke="#3fb950" stroke-width="1.4"/>
+  <rect x="470" y="200" width="20" height="14" rx="3" fill="none" stroke="#3fb950" stroke-width="1.4"/>
+  <text x="500" y="235" text-anchor="middle" class="mono accent">~/.anylover/anylover.sqlite3</text>
+  <text x="500" y="251" text-anchor="middle" class="sans tiny">on your machine — not a model provider's</text>
+
+  <!-- connections -->
+  <line x1="272" y1="177" x2="352" y2="177" stroke="#484f58" stroke-width="1.4" marker-start="url(#a)" marker-end="url(#a)"/>
+  <line x1="648" y1="177" x2="728" y2="177" stroke="#484f58" stroke-width="1.4" marker-start="url(#a)" marker-end="url(#a)"/>
+  <text x="312" y="166" text-anchor="middle" class="sans lbl">MCP · Skill</text>
+  <text x="688" y="166" text-anchor="middle" class="sans lbl">MCP · Skill</text>
+
+  <!-- what crosses the line, and what doesn't -->
+  <text x="500" y="306" text-anchor="middle" class="sans sub">
+    <tspan fill="#3fb950">✓</tspan> preferences · boundaries · shared events, each with consent and provenance
+  </text>
+  <text x="500" y="328" text-anchor="middle" class="sans sub">
+    <tspan fill="#f85149">✗</tspan> transcripts · passwords · API keys · tokens · private keys
+  </text>
+
+  <text x="500" y="358" text-anchor="middle" class="sans tiny">Not affiliated with, or endorsed by, OpenAI or Anthropic. Product names are used only to identify supported tools.</text>
+</svg>

@@ -4,6 +4,8 @@
 
 [English](README.en.md) · [安全说明](SECURITY.md) · [开发路线图](docs/03-roadmap.md)
 
+![Codex 和 Claude Code 通过 MCP 与 Skill 连接到 AnyLover，伴侣身份与长期记忆保存在你自己的机器上](docs/assets/how-it-works.svg)
+
 你换了模型、换了工具或开了新会话，伴侣仍可以在你允许的范围内记得你的偏好、边界和共同经历。记忆默认留在你的电脑上，也可以制作加密备份；它不属于某一家模型公司。
 
 > 当前版本是可运行的 M0 框架，适合开发者和早期体验者。它还不是完整的消费级聊天 App。
