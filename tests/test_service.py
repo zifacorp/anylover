@@ -106,6 +106,23 @@ class ServiceTest(unittest.TestCase):
         active_ids = {memory.id for memory in self.service.list_memories()}
         self.assertEqual(active_ids, {new.id})
 
+    def test_unicode_script_retrieval(self) -> None:
+        samples = (
+            ("Пользователь любит тихие вечера", "тихие вечера"),
+            ("المستخدم يحب الشاي بالنعناع", "الشاي بالنعناع"),
+            ("उपयोगकर्ता को शांत संगीत पसंद है", "शांत संगीत"),
+            ("Ο χρήστης προτιμά ήσυχα βράδια", "ήσυχα βράδια"),
+        )
+        for content, query in samples:
+            memory, _ = self.service.remember(
+                content=content,
+                kind="preference",
+                consent_basis="explicit",
+                source_surface="test",
+            )
+            context = self.service.build_context(query=query, limit=1)
+            self.assertEqual(context.memories[0].id, memory.id)
+
 
 if __name__ == "__main__":
     unittest.main()

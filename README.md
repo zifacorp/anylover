@@ -2,13 +2,25 @@
 
 让你在 Codex、ChatGPT、Claude Code、WorkBuddy 和未来的手机 App 里，继续和“同一个”AI 伴侣相处。
 
-[English](README.en.md) · [安全说明](SECURITY.md) · [开发路线图](docs/03-roadmap.md)
+[English](README.en.md) · [日本語](docs/i18n/ja.md) · [한국어](docs/i18n/ko.md) · [Español](docs/i18n/es.md) · [Português](docs/i18n/pt.md) · [Русский](docs/i18n/ru.md) · [多语言说明](docs/04-localization.md) · [安全说明](SECURITY.md) · [开发路线图](docs/03-roadmap.md)
 
 ![Codex 和 Claude Code 通过 MCP 与 Skill 连接到 AnyLover，伴侣身份与长期记忆保存在你自己的机器上](docs/assets/how-it-works.svg)
 
 你换了模型、换了工具或开了新会话，伴侣仍可以在你允许的范围内记得你的偏好、边界和共同经历。记忆默认留在你的电脑上，也可以制作加密备份；它不属于某一家模型公司。
 
 > 当前版本是可运行的 M0 框架，适合开发者和早期体验者。它还不是完整的消费级聊天 App。
+
+## 英文和其他语言
+
+- ✅ 完整中文说明：本页
+- ✅ 完整英文说明：[README.en.md](README.en.md)
+- ✅ 记忆内容支持任意 UTF-8 语言；检索已覆盖拉丁、CJK、西里尔、希腊、阿拉伯、天城文等 Unicode 字符脚本
+- ✅ Agent Skill 默认跟随用户当前语言回复，也接受明确指定的输出语言
+- ✅ 日语、韩语、西班牙语、葡萄牙语和俄语 README 入口
+- ⬜ 法语、德语、阿拉伯语、印地语等更多完整翻译文档
+- ⬜ 各语言专用的词法/语义检索和桌面、手机界面
+
+安装、设置人设和多语言测试句见[多语言说明](docs/04-localization.md)。模型生成的 Token 费用仍由你正在使用的 Agent 或模型提供商承担；AnyLover 只负责身份和记忆适配，不代理模型生成。
 
 <!-- 由 scripts/make_demo_gif.py 基于真实 CLI 输出生成 -->
 ![AnyLover demo](docs/assets/demo.gif)
@@ -22,7 +34,7 @@
 - ✅ CLI、STDIO MCP 和带鉴权 HTTP API
 - ✅ scrypt + AES-256-GCM 加密备份及 HTTPS 上传/下载
 - ✅ 自动检测 Agent 的一键安装器和幂等配置更新
-- ✅ 11 项自动化测试，覆盖记忆、MCP、HTTP、备份和安装流程
+- ✅ 12 项自动化测试，覆盖记忆、MCP、HTTP、备份、安装流程和多语言检索
 
 尚未实现的多设备同步、ChatGPT Web、手机 App 和本地数据库静态加密统一列在[开发路线图](docs/03-roadmap.md)，不会混在已交付能力里。
 
@@ -171,6 +183,7 @@ anylover backup create "backups/anylover-$(date +%F).albackup"
 - [安全说明与威胁模型](SECURITY.md)
 - [Agent 安装契约](AGENT_INSTALL.md)
 - [多端接入说明](integrations/README.md)
+- [多语言说明](docs/04-localization.md)
 - [HTTP API 契约](contracts/http-api.openapi.yaml)
 
 本地开发：

@@ -13,7 +13,10 @@
 - ✅ Codex、ChatGPT 桌面端、Claude Code、WorkBuddy 和普通 CLI 接入
 - ✅ 自动检测 Agent 的一键安装脚本、绝对 MCP 路径和安全配置合并
 - ✅ Codex/ChatGPT Plugin scaffold 与标准 Agent Skill
-- ✅ 11 项自动化测试及隔离环境三 Agent 安装验证
+- ✅ Agent Skill 按用户当前语言回复，并保留记忆原文
+- ✅ Unicode 多脚本确定性检索（拉丁、CJK、西里尔、希腊、阿拉伯、天城文等）
+- ✅ 英文、日文、韩文、西班牙文、葡萄牙文和俄文 README 入口
+- ✅ 12 项自动化测试及隔离环境三 Agent 安装验证
 
 ## M1：记忆质量与本地产品化
 
@@ -24,6 +27,8 @@
 - ⬜ SQLCipher 或平台 Keychain 封装的数据库静态加密
 - ⬜ macOS 菜单栏/桌面壳与可视化记忆检查器
 - ⬜ LoCoMo、LongMemEval 和自建关系连续性回归集
+- ⬜ 法语、德语、阿拉伯语、印地语等更多完整本地化文档
+- ⬜ 各语言专用的分词、词干化、语义检索和本地化 UI
 
 ## M2：多设备、ChatGPT Web 与手机端
 

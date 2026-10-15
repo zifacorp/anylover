@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 import re
+import unicodedata
 from datetime import UTC, datetime
 from typing import Any
 
@@ -247,9 +248,25 @@ def _normalize(value: str) -> str:
 
 def _tokens(value: str) -> set[str]:
     lowered = value.casefold()
-    latin = set(re.findall(r"[a-z0-9_]{2,}", lowered))
+    # ``[^\W_]`` keeps Unicode letters and digits while excluding punctuation
+    # and underscores.  This gives deterministic word-like tokens for scripts
+    # such as Cyrillic, Arabic, Greek, Devanagari, and Latin without adding a
+    # language-specific tokenizer dependency.  CJK characters are retained as
+    # individual tokens because whitespace is not a reliable word boundary.
+    unicode_words = set(re.findall(r"[^\W_]{2,}", lowered, flags=re.UNICODE))
     cjk = set(re.findall(r"[\u3400-\u9fff]", lowered))
-    return latin | cjk
+    # Combining marks used by Devanagari and several other scripts are not
+    # consistently included in Python's ``\w`` class.  Keep non-ASCII letters,
+    # marks, and numbers as fallback character tokens so an exact phrase can
+    # still match without pretending to have a language-specific segmenter.
+    script_chars = {
+        char
+        for char in lowered
+        if ord(char) > 127
+        and not ("\u3400" <= char <= "\u9fff")
+        and unicodedata.category(char)[0] in {"L", "M", "N"}
+    }
+    return unicode_words | cjk | script_chars
 
 
 def _memory_score(memory: MemoryRecord, query: str) -> float:
