@@ -32,7 +32,7 @@ anylover init \
 
 ## AI Agent Skill 설치
 
-[Vast.ai CLI](https://github.com/vast-ai/vast-cli#ai-agents)와 같은 Skills CLI를 사용할 수 있습니다.
+Skills CLI로 AnyLover를 설치할 수 있습니다.
 
 ```bash
 npx skills add zifacorp/anylover

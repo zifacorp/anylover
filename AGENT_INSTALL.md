@@ -4,7 +4,7 @@ This file is for Codex, Claude Code, WorkBuddy, and other coding agents asked to
 
 ## Portable Skills CLI installation
 
-Users can install the Skill like the Vast.ai CLI Skill:
+Users can install the AnyLover Skill with Skills CLI:
 
 ```bash
 npx skills add zifacorp/anylover

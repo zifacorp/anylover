@@ -1,6 +1,6 @@
 # Agent 接入说明
 
-## 通用 Skill 安装（与 Vast.ai CLI 相同）
+## 通用 Skill 安装
 
 ```bash
 npx skills add zifacorp/anylover

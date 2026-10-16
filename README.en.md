@@ -77,7 +77,7 @@ anylover init \
 
 ## AI Agents
 
-Like [Vast.ai CLI](https://github.com/vast-ai/vast-cli#ai-agents), AnyLover supports the portable [Skills CLI](https://github.com/vercel-labs/skills):
+Install AnyLover with the portable [Skills CLI](https://github.com/vercel-labs/skills):
 
 ```bash
 npx skills add zifacorp/anylover

@@ -32,7 +32,7 @@ anylover init \
 
 ## Skill для AI-агентов
 
-Используйте тот же Skills CLI, что и [Vast.ai CLI](https://github.com/vast-ai/vast-cli#ai-agents):
+Установите AnyLover через Skills CLI:
 
 ```bash
 npx skills add zifacorp/anylover

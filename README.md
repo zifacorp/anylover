@@ -57,7 +57,7 @@ anylover init \
 
 ## 安装到 AI Agent
 
-和 [Vast.ai CLI](https://github.com/vast-ai/vast-cli#ai-agents) 一样，可以通过 [Skills CLI](https://github.com/vercel-labs/skills) 安装：
+通过 [Skills CLI](https://github.com/vercel-labs/skills) 安装 AnyLover：
 
 ```bash
 npx skills add zifacorp/anylover
