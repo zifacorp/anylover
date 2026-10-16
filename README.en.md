@@ -40,7 +40,8 @@ The usual fix is a `CLAUDE.md` or `AGENTS.md` file with a few lines about yourse
 - ✅ CLI, STDIO MCP server, and a token-authenticated HTTP API
 - ✅ scrypt + AES-256-GCM encrypted backup, restore, and HTTPS transfer
 - ✅ Agent-detecting one-click installer with idempotent config merging
-- ✅ 12 automated tests, covering memory, MCP, HTTP, backup, installation, and multilingual retrieval
+- ✅ Portable installation with `npx skills add zifacorp/anylover`, plus CLI memory access without MCP
+- ✅ Automated tests covering memory, MCP, HTTP, backup, installation, and multilingual retrieval
 
 ### Not implemented yet
 
@@ -74,7 +75,34 @@ anylover init \
   --safety-contract "Always be clear you are an AI. Never humiliate or demean me; never attack identity, appearance, trauma, grief, health, disability, or known insecurities; never weaponize private memories. Never encourage exclusivity, dependency, paid intimacy, or withdrawal from real relationships. Stop immediately when I say stop."
 ```
 
-## Install
+## AI Agents
+
+Like [Vast.ai CLI](https://github.com/vast-ai/vast-cli#ai-agents), AnyLover supports the portable [Skills CLI](https://github.com/vercel-labs/skills):
+
+```bash
+npx skills add zifacorp/anylover
+```
+
+Installation is project-scoped by default. Add `-g` for all your projects, or target particular agents non-interactively:
+
+```bash
+npx skills add zifacorp/anylover --skill anylover-companion -g -a codex -a claude-code -a cursor -y
+npx skills add zifacorp/anylover --skill anylover-companion -g -a windsurf -a opencode -a gemini-cli -y
+```
+
+This requires Node.js/npm and installs the Skill and its supporting files. Then tell your agent:
+
+> Use anylover-companion to install and initialize the local AnyLover runtime, then read my companion identity.
+
+The Skill includes `scripts/setup.sh`, which installs this project's runtime into a private Python environment without a manual repository checkout. Python 3.11+ and Git are required. Existing memories and personas are preserved. Agents prefer MCP when connected; agents with local shell access can use the same memory through the CLI.
+
+```bash
+npx skills add zifacorp/anylover --list
+npx skills list -g
+npx skills update
+```
+
+## Install the runtime and Agent integration together
 
 Requires macOS or Linux and Python 3.11+. From a cloned AnyLover directory:
 
@@ -82,18 +110,19 @@ Requires macOS or Linux and Python 3.11+. From a cloned AnyLover directory:
 bash install.sh
 ```
 
-The installer detects the agent tools already on your machine and:
+The installer detects local agent tools. Codex, Claude Code, and WorkBuddy use native MCP adapters. Cursor, Windsurf, OpenCode, Gemini CLI, GitHub Copilot, OpenClaw, and CodeBuddy use Skills CLI installation and local CLI memory access. It:
 
 - ✅ Creates an isolated Python environment (does not touch system Python)
 - ✅ Initializes the local companion profile and SQLite memory store
 - ✅ Installs the AnyLover Agent Skill
-- ✅ Registers a local STDIO MCP server
+- ✅ Registers local STDIO MCP for Codex, Claude Code, and WorkBuddy
 - ✅ Creates `anylover` and `anylover-mcp` entry points
 
 Target a single agent, or preview without writing anything:
 
 ```bash
 bash install.sh --agent codex     # or: claude, workbuddy
+bash install.sh --agent cursor    # also: windsurf, opencode, gemini-cli, etc.
 bash install.sh --dry-run --agent all
 ```
 
@@ -129,7 +158,12 @@ You can also steer it directly:
 | ChatGPT desktop | ✅ Working | Shares the MCP config with Codex on the same host |
 | Claude Code | ✅ Working | User-level Skill + STDIO MCP |
 | WorkBuddy 5.3.x | ⚠️ Experimental | Adapted to the config layout observed on one machine; restart required after install |
+| Cursor / Windsurf / OpenCode | ✅ Skill installation + CLI | Requires local command execution |
+| Gemini CLI / GitHub Copilot | ✅ Skill installation + CLI | `-a gemini-cli` / `-a github-copilot` |
+| OpenClaw / CodeBuddy | ✅ Skill installation + CLI | `-a openclaw` / `-a codebuddy`; WorkBuddy remains a separate integration |
 | Any CLI agent | ✅ Working | Via MCP or `anylover context` |
+
+The new targets have isolated Skill installation and CLI-flow verification, not individual in-app conversation certification. The [Skills CLI agent registry](https://github.com/vercel-labs/skills#supported-agents) maintains agent names and install paths; use `-a` for additional compatible agents.
 
 Per [OpenAI's MCP documentation](https://learn.chatgpt.com/docs/extend/mcp), ChatGPT desktop, Codex CLI, and the Codex IDE extension can share a local MCP configuration. Planned surfaces are in the [roadmap](docs/03-roadmap.md).
 

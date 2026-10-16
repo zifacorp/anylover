@@ -6,13 +6,14 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 install_root="${ANYLOVER_INSTALL_ROOT:-${XDG_DATA_HOME:-$HOME/.local/share}/anylover-runtime}"
 bin_dir="${ANYLOVER_BIN_DIR:-$HOME/.local/bin}"
 codex_config_home="${CODEX_HOME:-$HOME/.codex}"
-claude_config_home="$HOME/.claude"
+claude_config_home="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 workbuddy_home="${ANYLOVER_WORKBUDDY_HOME:-$HOME/.workbuddy}"
 python_bin="${ANYLOVER_PYTHON:-python3}"
 companion_name="${ANYLOVER_COMPANION_NAME:-Any}"
 agent_mode="auto"
 force_agent_config=0
 dry_run=0
+portable_agents=(cursor windsurf opencode gemini-cli github-copilot openclaw codebuddy)
 
 usage() {
   cat <<'EOF'
@@ -24,6 +25,8 @@ Usage:
 Options:
   --agent auto|all|codex|claude|workbuddy|none
                               Agent target. Default: auto-detect installed agents.
+                              Also: cursor, windsurf, opencode, gemini-cli,
+                              github-copilot, openclaw, codebuddy (via npx skills).
   --name NAME                 Initial companion name. Default: Any.
   --install-root PATH         Private runtime location.
   --force-agent-config        Replace an existing AnyLover MCP entry.
@@ -33,7 +36,8 @@ Options:
 Environment overrides:
   ANYLOVER_INSTALL_ROOT, ANYLOVER_BIN_DIR, ANYLOVER_PYTHON,
   ANYLOVER_WORKBUDDY_HOME, ANYLOVER_HOME, ANYLOVER_DB.
-  Codex honors its standard CODEX_HOME setting.
+  Codex honors CODEX_HOME; Claude Code honors CLAUDE_CONFIG_DIR.
+  Portable targets require Node.js/npx in addition to Python 3.11+.
 EOF
 }
 
@@ -86,7 +90,7 @@ while (($#)); do
 done
 
 case "$agent_mode" in
-  auto|all|codex|claude|workbuddy|none) ;;
+  auto|all|codex|claude|workbuddy|none|cursor|windsurf|opencode|gemini-cli|github-copilot|openclaw|codebuddy) ;;
   *) die "unsupported --agent value: $agent_mode" ;;
 esac
 
@@ -96,10 +100,17 @@ wants_agent() {
   local target="$1"
   case "$agent_mode:$target" in
     all:*) return 0 ;;
-    codex:codex|claude:claude|workbuddy:workbuddy) return 0 ;;
+    "$target:$target") return 0 ;;
     auto:codex) command -v codex >/dev/null 2>&1 ;;
     auto:claude) command -v claude >/dev/null 2>&1 ;;
     auto:workbuddy) [[ -d "$workbuddy_home" ]] ;;
+    auto:cursor) [[ -d "$HOME/.cursor" ]] ;;
+    auto:windsurf) [[ -d "$HOME/.codeium/windsurf" ]] ;;
+    auto:opencode) command -v opencode >/dev/null 2>&1 || [[ -d "${XDG_CONFIG_HOME:-$HOME/.config}/opencode" ]] ;;
+    auto:gemini-cli) command -v gemini >/dev/null 2>&1 || [[ -d "$HOME/.gemini" ]] ;;
+    auto:github-copilot) [[ -d "$HOME/.copilot" ]] ;;
+    auto:openclaw) command -v openclaw >/dev/null 2>&1 || [[ -d "${OPENCLAW_STATE_DIR:-$HOME/.openclaw}" ]] ;;
+    auto:codebuddy) [[ -d "$HOME/.codebuddy" ]] ;;
     *) return 1 ;;
   esac
 }
@@ -111,6 +122,9 @@ describe_targets() {
   wants_agent codex && targets+=("Codex/ChatGPT desktop")
   wants_agent claude && targets+=("Claude Code")
   wants_agent workbuddy && targets+=("WorkBuddy")
+  for target in "${portable_agents[@]}"; do
+    wants_agent "$target" && targets+=("$target (Skill + CLI)")
+  done
   if ((${#targets[@]} == 0)); then
     printf 'runtime only'
   else
@@ -127,6 +141,12 @@ runtime_python="$venv_dir/bin/python"
 anylover_cli="$venv_dir/bin/anylover"
 anylover_mcp="$venv_dir/bin/anylover-mcp"
 skill_source="$script_dir/integrations/anylover-companion/skills/anylover-companion"
+portable_targets=()
+for target in "${portable_agents[@]}"; do
+  if wants_agent "$target"; then
+    portable_targets+=("$target")
+  fi
+done
 
 if ((dry_run)); then
   info "Dry run; no files will be changed."
@@ -134,7 +154,14 @@ if ((dry_run)); then
   info "Agents: $(describe_targets)"
   info "Companion: $companion_name"
   info "MCP command: $anylover_mcp"
+  if ((${#portable_targets[@]})); then
+    info "Skill installer: npx --yes skills add <bundled-skill> --global --agent ${portable_targets[*]} --copy --yes"
+  fi
   exit 0
+fi
+
+if ((${#portable_targets[@]})); then
+  command -v npx >/dev/null 2>&1 || die "Node.js/npx is required for ${portable_targets[*]}; install it or use --agent codex, claude, workbuddy, or none."
 fi
 
 command -v "$python_bin" >/dev/null 2>&1 || die "Python 3.11 or newer is required"
@@ -253,6 +280,11 @@ register_workbuddy() {
 wants_agent codex && register_codex
 wants_agent claude && register_claude
 wants_agent workbuddy && register_workbuddy
+if ((${#portable_targets[@]})); then
+  npx --yes skills add "$skill_source" --skill anylover-companion \
+    --global --agent "${portable_targets[@]}" --copy --yes
+  info "Installed portable Skill for: ${portable_targets[*]} (uses the local CLI; no MCP configuration was changed)."
+fi
 
 info "Installation complete for: $(describe_targets)"
 info "Your local data stays in ${ANYLOVER_HOME:-$HOME/.anylover}"

@@ -30,7 +30,20 @@ anylover init \
   --style "Кратко, разговорно и слегка язвительно. Критика должна быть конкретной и сопровождаться рабочей альтернативой. После просьбы остановиться язвительность прекращается сразу."
 ```
 
-## Установка
+## Skill для AI-агентов
+
+Используйте тот же Skills CLI, что и [Vast.ai CLI](https://github.com/vast-ai/vast-cli#ai-agents):
+
+```bash
+npx skills add zifacorp/anylover
+npx skills add zifacorp/anylover --skill anylover-companion -g -a cursor -a claude-code -y
+```
+
+По умолчанию Skill устанавливается в проект; `-g` задаёт пользовательский уровень. Можно выбрать Codex, Claude Code, Cursor, Windsurf, OpenCode, Gemini CLI, GitHub Copilot, OpenClaw или CodeBuddy. Нужен Node.js/npm.
+
+Команда устанавливает Skill и вспомогательные файлы. Затем попросите агента: «Используй anylover-companion, установи локальный runtime и прочитай мой профиль». Включённый `scripts/setup.sh` использует Python 3.11+ и Git. Без MCP агент обращается к той же памяти через локальный CLI. Поведение диалога внутри каждого приложения ещё требует отдельной проверки.
+
+## Установка runtime и интеграции
 
 Нужны macOS или Linux и Python 3.11+. В корне репозитория выполните:
 

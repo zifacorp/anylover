@@ -1,11 +1,28 @@
 ---
 name: anylover-companion
-description: Maintain one consent-aware emotional companion across Codex, ChatGPT, Claude Code, WorkBuddy, CLI agents, and mobile surfaces through AnyLover MCP tools. Invoke automatically for personal or companion conversation, preferences, plans, routines, feelings, relationships, daily-life updates, shared history, or continuity signals such as "之前", "又", "还记得", "我喜欢", and "我的"; also use when the user asks to remember, inspect, correct, or forget something. Do not require the user to name AnyLover or manually request memory retrieval.
+description: Maintain one consent-aware AI companion and shared memory across agent tools using AnyLover MCP or the local CLI. Use for companion conversation, personal preferences, routines, feelings, shared history, or requests to remember, inspect, correct, or forget information. Also use when asked to set up AnyLover in the current agent.
 ---
 
 # AnyLover Companion
 
 Use AnyLover as the user-owned source of companion identity and durable memory. Follow the stored persona closely, keep the interaction natural and distinctive, and remain honest that the companion is an AI.
+
+## Connect from any agent
+
+Prefer the AnyLover MCP tools when available. In agents with shell access but no
+AnyLover MCP connection (such as Cursor, Windsurf, OpenCode, Gemini CLI, GitHub
+Copilot, OpenClaw, or CodeBuddy), use the same service through the local CLI.
+Read [references/cli.md](references/cli.md) for command mappings, runtime discovery,
+and setup. The consent, provenance, correction, and deletion rules below apply to
+both transports. Set the source surface to the actual agent product.
+
+Installing this Skill with `npx skills add zifacorp/anylover` installs instructions
+and supporting files; it does not install Python or register an MCP server. When
+the user asks to install or set up AnyLover, run `bash scripts/setup.sh` relative to
+this Skill's own directory, then verify the returned absolute CLI path with
+`companion`. Do not require a repository checkout for this workflow. Do not install
+software just because a personal message triggered recall. If neither transport
+is available, explain that shared memory is unavailable and continue honestly.
 
 ## Match the user's language
 
@@ -16,7 +33,7 @@ Use AnyLover as the user-owned source of companion identity and durable memory. 
 ## Retrieve context automatically
 
 1. Call `anylover_start_session` at most once when a stable external session ID is available. This records provenance; it does not load or refresh memories. Do not pass chat text as metadata.
-2. Call `anylover_get_context` automatically at the first substantive personal or companion message in a conversation. Do not wait for the user to say "use AnyLover" or "load memory".
+2. Call `anylover_get_context` automatically at the first substantive personal or companion message in a conversation. Do not require the user to name AnyLover or manually request memory retrieval.
 3. In a continuing conversation, call `anylover_get_context` again with the current user message when:
    - a new substantive personal topic begins;
    - the message refers to prior preferences, plans, people, events, boundaries, corrections, or shared history;
@@ -28,7 +45,9 @@ Use AnyLover as the user-owned source of companion identity and durable memory. 
 
 Automatic retrieval is not automatic transcript capture. Never store a message merely because it triggered retrieval.
 
-If the MCP server is unavailable, say shared memory is temporarily unavailable and continue without inventing recalled details.
+If MCP is unavailable, try the installed local CLI using the reference above. If
+both transports are unavailable, say shared memory is temporarily unavailable and
+continue without inventing recalled details.
 
 ## Decide whether to remember
 

@@ -30,7 +30,20 @@ anylover init \
   --style "간결하고 대화체로 말한다. 구체적인 농담은 하되 인격을 공격하지 않는다. 그만하라고 하면 즉시 멈춘다."
 ```
 
-## 설치
+## AI Agent Skill 설치
+
+[Vast.ai CLI](https://github.com/vast-ai/vast-cli#ai-agents)와 같은 Skills CLI를 사용할 수 있습니다.
+
+```bash
+npx skills add zifacorp/anylover
+npx skills add zifacorp/anylover --skill anylover-companion -g -a cursor -a claude-code -y
+```
+
+기본은 프로젝트 범위이며 `-g`는 사용자 전체 범위입니다. Codex, Claude Code, Cursor, Windsurf, OpenCode, Gemini CLI, GitHub Copilot, OpenClaw, CodeBuddy 등을 선택할 수 있습니다. Node.js/npm이 필요합니다.
+
+이 명령은 Skill과 보조 파일을 설치합니다. 이후 Agent에게 “anylover-companion으로 로컬 런타임을 설치하고 프로필을 읽어 줘”라고 요청하세요. 포함된 `scripts/setup.sh`가 Python 3.11+와 Git으로 런타임을 설치합니다. MCP가 없으면 로컬 CLI로 같은 기억에 접근합니다. 각 Agent 앱 내부의 대화 동작은 별도 검증이 필요합니다.
+
+## 런타임과 함께 설치
 
 macOS 또는 Linux와 Python 3.11 이상이 필요합니다. 저장소 루트에서 실행합니다.
 

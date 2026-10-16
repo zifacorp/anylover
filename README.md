@@ -34,7 +34,8 @@
 - ✅ CLI、STDIO MCP 和带鉴权 HTTP API
 - ✅ scrypt + AES-256-GCM 加密备份及 HTTPS 上传/下载
 - ✅ 自动检测 Agent 的一键安装器和幂等配置更新
-- ✅ 12 项自动化测试，覆盖记忆、MCP、HTTP、备份、安装流程和多语言检索
+- ✅ `npx skills add zifacorp/anylover` 通用 Skill 安装，以及无 MCP 时的 CLI 记忆接入
+- ✅ 自动化测试覆盖记忆、MCP、HTTP、备份、安装流程和多语言检索
 
 尚未实现的多设备同步、ChatGPT Web、手机 App 和本地数据库静态加密统一列在[开发路线图](docs/03-roadmap.md)，不会混在已交付能力里。
 
@@ -54,7 +55,36 @@ anylover init \
   --safety-contract "始终明确自己是 AI；不羞辱或贬低我，不攻击身份、外貌、创伤、悲伤、健康、残障或已知脆弱点，不拿私密记忆当武器；不鼓励排他、依赖、付费亲密或疏远现实关系；我说停止就立即停止。"
 ```
 
-## 一键安装
+## 安装到 AI Agent
+
+和 [Vast.ai CLI](https://github.com/vast-ai/vast-cli#ai-agents) 一样，可以通过 [Skills CLI](https://github.com/vercel-labs/skills) 安装：
+
+```bash
+npx skills add zifacorp/anylover
+```
+
+默认安装到当前项目；加 `-g` 可在该用户的所有项目中使用。指定 Agent、跳过交互：
+
+```bash
+npx skills add zifacorp/anylover --skill anylover-companion -g -a codex -a claude-code -a cursor -y
+npx skills add zifacorp/anylover --skill anylover-companion -g -a windsurf -a opencode -a gemini-cli -y
+```
+
+这个命令需要 Node.js/npm，安装的是 Skill 及其配套文件。首次安装后，对 Agent 说：
+
+> 请使用 anylover-companion，安装并初始化本地 AnyLover 运行时，然后读取我的伴侣身份。
+
+Agent 会使用 Skill 自带的 `scripts/setup.sh`，从本项目安装独立 Python 运行时，无需手工下载仓库。需要 Python 3.11+ 和 Git。已有记忆和人设会保留；支持 MCP 的 Agent 优先使用 MCP，其余有本地命令执行能力的 Agent 通过 CLI 访问同一个记忆库。
+
+查看可安装的 Skill 或管理已安装版本：
+
+```bash
+npx skills add zifacorp/anylover --list
+npx skills list -g
+npx skills update
+```
+
+## 本地运行时 + Agent 一键安装
 
 需要 macOS 或 Linux，以及 Python 3.11 以上。在已经下载的 AnyLover 项目目录运行：
 
@@ -62,12 +92,12 @@ anylover init \
 bash install.sh
 ```
 
-安装器会自动检测并接入本机已有的 Codex、Claude Code 和 WorkBuddy，同时：
+安装器会自动检测本机已有的 Agent。Codex、Claude Code 和 WorkBuddy 使用现有专用 MCP 适配；Cursor、Windsurf、OpenCode、Gemini CLI、GitHub Copilot、OpenClaw 和 CodeBuddy 由 Skills CLI 安装 Skill 并通过本地 CLI 使用记忆，同时：
 
 - ✅ 创建独立 Python 环境，不污染系统 Python
 - ✅ 初始化本地伴侣资料和 SQLite 记忆库
 - ✅ 安装 AnyLover Agent Skill
-- ✅ 注册本地 STDIO MCP 服务
+- ✅ 为 Codex、Claude Code、WorkBuddy 注册本地 STDIO MCP 服务
 - ✅ 为命令行创建 `anylover` 和 `anylover-mcp` 入口
 
 只安装到一个 Agent：
@@ -76,6 +106,7 @@ bash install.sh
 bash install.sh --agent codex
 bash install.sh --agent claude
 bash install.sh --agent workbuddy
+bash install.sh --agent cursor       # 也支持 windsurf、opencode、gemini-cli 等
 ```
 
 想先看它会做什么：
@@ -118,7 +149,12 @@ AnyLover 不会默认保存整段聊天。普通、稳定且未来有用的信�
 | ChatGPT 桌面端 | ✅ 可用 | 与同一台 Codex host 共享 MCP 配置 |
 | Claude Code | ✅ 可用 | 用户级 Skill + STDIO MCP |
 | WorkBuddy 5.3.x | ✅ 实验可用 | 按当前本机配置结构适配，安装后需重启 |
+| Cursor / Windsurf / OpenCode | ✅ Skill 安装与 CLI 接入 | 通过 Skills CLI 安装；需要本地命令执行能力 |
+| Gemini CLI / GitHub Copilot | ✅ Skill 安装与 CLI 接入 | `-a gemini-cli` / `-a github-copilot` |
+| OpenClaw / CodeBuddy | ✅ Skill 安装与 CLI 接入 | `-a openclaw` / `-a codebuddy`；CodeBuddy 与 WorkBuddy 分别适配 |
 | 普通 CLI Agent | ✅ 可用 | 通过 MCP 或 `anylover context` 接入 |
+
+新增入口已在隔离目录验证 Skill 安装、配套文件和 CLI 闭环，未逐一验证各 Agent 应用的对话行为。完整的 Agent 标识和安装路径由 [Skills CLI](https://github.com/vercel-labs/skills#supported-agents) 维护，更多兼容 Agent 可用 `-a` 选择。
 
 根据 [OpenAI 官方 MCP 文档](https://learn.chatgpt.com/docs/extend/mcp)，ChatGPT 桌面端、Codex CLI 和 IDE 可以共享本机 MCP 配置。其他计划支持的入口见[开发路线图](docs/03-roadmap.md)。
 

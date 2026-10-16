@@ -7,11 +7,14 @@ AnyLover owns companion identity, consent, provenance, memory, deletion, and bac
 ## Commands
 
 - User/Agent one-click install: `bash install.sh --agent auto`
+- Portable Skill install: `npx skills add zifacorp/anylover`
+- The distributable Skill is self-contained under `integrations/anylover-companion/skills/anylover-companion/`; its setup script installs only the runtime and its CLI reference is the fallback when MCP tools are unavailable.
 - Inspect the install without writes: `bash install.sh --dry-run --agent all`
 - Follow `AGENT_INSTALL.md` when the task is to install AnyLover into Agent tools.
 - Install: `python -m pip install .`
 - Editable install: standard CPython may use `python -m pip install -e .`; some Anaconda/Conda Python 3.13 builds skip the generated hidden `.pth`, so use a regular install when imports fail.
 - Test: `python -m unittest discover -s tests -v`
+- Networked Skills CLI smoke test (temporary HOME only): `python scripts/verify_skills_install.py`
 - Syntax check: `python -m compileall -q src tests`
 - CLI smoke test: `ANYLOVER_HOME=$(mktemp -d) anylover init --name Any`
 - MCP entrypoint: `anylover-mcp`

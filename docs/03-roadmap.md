@@ -12,11 +12,13 @@
 - ✅ scrypt + AES-256-GCM 加密备份、恢复、HTTPS 上传和下载
 - ✅ Codex、ChatGPT 桌面端、Claude Code、WorkBuddy 和普通 CLI 接入
 - ✅ 自动检测 Agent 的一键安装脚本、绝对 MCP 路径和安全配置合并
+- ✅ Skills CLI 通用安装、独立 Skill 运行时安装脚本、MCP 缺席时的 CLI 记忆接入
+- ✅ Cursor、Windsurf、OpenCode、Gemini CLI、GitHub Copilot、OpenClaw、CodeBuddy 的 Skill 分发入口（隔离安装验证；应用内对话待逐端验证）
 - ✅ Codex/ChatGPT Plugin scaffold 与标准 Agent Skill
 - ✅ Agent Skill 按用户当前语言回复，并保留记忆原文
 - ✅ Unicode 多脚本确定性检索（拉丁、CJK、西里尔、希腊、阿拉伯、天城文等）
 - ✅ 英文、日文、韩文、西班牙文、葡萄牙文和俄文 README 入口
-- ✅ 12 项自动化测试及隔离环境三 Agent 安装验证
+- ✅ 自动化测试及隔离环境 Agent 安装验证
 
 ## M1：记忆质量与本地产品化
 
@@ -50,6 +52,7 @@
 
 ## 近期产品验证
 
+- ⬜ 在新增 Agent 应用内逐端验证 Skill 触发与完整陪伴对话
 - ⬜ 让同一位用户在 Codex 与 Claude Code 中各完成一次陪伴对话
 - ⬜ 验证第二端能召回第一端经用户同意保存的偏好
 - ⬜ 验证未保存的原始对话不会被另一端召回
