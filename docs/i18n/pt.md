@@ -30,36 +30,35 @@ anylover init \
   --style "Breve, conversacional e levemente sarcástico. Toda crítica deve trazer uma alternativa útil. Se eu disser para parar, pare imediatamente."
 ```
 
-## Skill para agentes de IA
+## Início rápido (recomendado)
 
-Instale o AnyLover com o Skills CLI:
+Requer macOS ou Linux, Node.js/npm, Python 3.11+ e Git. Para Codex, Claude Code, Cursor e outros agentes que executam comandos locais.
 
-```bash
-npx skills add zifacorp/anylover
-npx skills add zifacorp/anylover --skill anylover-companion -g -a cursor -a claude-code -y
-```
+Para WorkBuddy ou configuração automática do MCP, use o [instalador MCP local](../../integrations/README.md#本地-mcp-安装) como alternativa. Escolha apenas um caminho; não é necessário executar os dois.
 
-O escopo padrão é o projeto; `-g` instala para todos os seus projetos. Você pode escolher Codex, Claude Code, Cursor, Windsurf, OpenCode, Gemini CLI, GitHub Copilot, OpenClaw ou CodeBuddy. É necessário Node.js/npm.
+### 1. Instale o Skill
 
-O comando instala o Skill e seus arquivos auxiliares. Depois peça ao agente: “Use anylover-companion para instalar o runtime local e ler meu perfil”. O script incluído `scripts/setup.sh` usa Python 3.11+ e Git. Sem MCP, o agente acessa a mesma memória pelo CLI local. A conversa em cada aplicativo ainda precisa de verificação individual.
-
-## Instalação do runtime e da integração
-
-Você precisa de macOS ou Linux e Python 3.11 ou superior. Na raiz do repositório:
+Execute no terminal e escolha seu agente:
 
 ```bash
-bash install.sh --agent auto
+npx skills add zifacorp/anylover --skill anylover-companion -g
 ```
 
-Para um único agente:
+`-g` disponibiliza o Skill em todos os seus projetos. Omita essa opção para usar apenas no projeto atual.
 
-```bash
-bash install.sh --agent codex
-bash install.sh --agent claude
-bash install.sh --agent workbuddy
-```
+### 2. Peça ao agente para concluir a configuração
 
-Uma entrada MCP existente chamada `anylover` não é substituída sem `--force-agent-config`. Reinicie o agente depois da instalação.
+Reinicie o agente ou abra uma nova sessão e envie:
+
+> Use anylover-companion para instalar e inicializar o runtime local do AnyLover e ler o perfil do meu companheiro.
+
+O agente instala um ambiente Python privado e preserva sua personalidade e memórias existentes. Isso conclui a instalação; não execute também `install.sh`. Esse caminho não altera a configuração MCP: sem conexão MCP, usa o CLI local.
+
+### 3. Comece a conversar
+
+> O que você lembra sobre mim? Conte também como é sua personalidade.
+
+É normal não ter memórias no início. Depois, converse naturalmente. Opções por agente e atualizações estão no [guia avançado](../../integrations/README.md). A conversa em cada aplicativo ainda precisa de verificação individual.
 
 ## Uso
 

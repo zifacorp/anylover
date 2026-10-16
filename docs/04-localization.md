@@ -26,21 +26,19 @@ Changing the model or the language does not create a second companion. The same 
 
 “Supported” means that AnyLover can store the text and use script-aware lexical overlap during retrieval. It does not mean that every model understands every language equally well, and AnyLover does not translate a memory silently.
 
-## One-click installation
+## Installation
 
-The installation command is the same in every language:
-
-```bash
-bash install.sh --agent auto
-```
-
-Install one surface only when needed:
+Follow the same [quick start](../README.en.md#quick-start-recommended) in every language. Install the Skill and select your Agent:
 
 ```bash
-bash install.sh --agent codex
-bash install.sh --agent claude
-bash install.sh --agent workbuddy
+npx skills add zifacorp/anylover --skill anylover-companion -g
 ```
+
+Restart the Agent or open a new session, then ask it to finish setup:
+
+> Use anylover-companion to install and initialize the local AnyLover runtime, then read my companion identity.
+
+Requires macOS or Linux, Node.js/npm, Python 3.11+, and Git. The Agent installs the private runtime; no repository checkout or additional `install.sh` step is needed. For WorkBuddy or automatic local MCP configuration, use the [alternative installer](../integrations/README.md#本地-mcp-安装) instead, not as an extra step.
 
 The token cost of the conversation is charged by the model or Agent provider you are using. AnyLover is a local identity and memory adapter; it does not proxy model generation or add a second model bill.
 

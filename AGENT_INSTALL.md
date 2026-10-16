@@ -2,12 +2,20 @@
 
 This file is for Codex, Claude Code, WorkBuddy, and other coding agents asked to install AnyLover for a user.
 
-## Portable Skills CLI installation
+## Choose one installation route
+
+For a user following the README quick start, use the portable Skill route below.
+Use the repository installer instead for WorkBuddy, requested automatic local MCP
+configuration, or a user explicitly asking to install from a source checkout.
+These are alternatives, not consecutive steps; a working CLI connection does not
+require an additional MCP installation.
+
+## Portable Skills CLI installation (recommended)
 
 Users can install the AnyLover Skill with Skills CLI:
 
 ```bash
-npx skills add zifacorp/anylover
+npx skills add zifacorp/anylover --skill anylover-companion -g
 npx skills add zifacorp/anylover --skill anylover-companion -g -a cursor -a windsurf -y
 ```
 
@@ -19,15 +27,15 @@ existing profile. No source checkout is required. Read the Skill's
 `references/cli.md` for MCP-to-CLI mappings. Node.js/npm is needed for the Skills
 CLI; the runtime needs Python 3.11+ and Git for its default source.
 
-## Default action
+## Repository / local MCP installation (alternative)
 
-From the AnyLover repository root, run:
+When using this route, the default action from the AnyLover repository root is:
 
 ```bash
 bash install.sh --agent auto
 ```
 
-The installer creates a private Python environment, initializes local data only when no database exists, installs the AnyLover Skill, and registers the STDIO MCP server with detected Agent tools.
+The installer creates a private Python environment, initializes local data only when no database exists, installs the AnyLover Skill, and registers the STDIO MCP server with detected native Agent integrations. Portable targets use the CLI instead. Do not additionally run the portable bootstrap for the same setup.
 
 Do not manually rewrite an Agent configuration before trying the installer. Do not use `sudo`, do not install into system Python, and do not copy secrets into commands or configuration files.
 
@@ -66,7 +74,7 @@ After installation:
 "${ANYLOVER_INSTALL_ROOT:-${XDG_DATA_HOME:-$HOME/.local/share}/anylover-runtime}/venv/bin/python" -m pip check
 ```
 
-For the selected Agent, also check its MCP status:
+Only when the local MCP installer was used for the selected native Agent, also check its MCP status:
 
 ```bash
 codex mcp get anylover

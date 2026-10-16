@@ -59,13 +59,49 @@ What is less common here:
 
 Also: zero dependencies beyond `cryptography`. Pure standard library otherwise.
 
+## Quick start (recommended)
+
+For Codex, Claude Code, Cursor, and other agents with local command execution. Requires macOS or Linux, Node.js/npm, Python 3.11+, and Git. No manual repository checkout is needed.
+
+For WorkBuddy, or automatic local MCP configuration, use the [local MCP installer](integrations/README.md#本地-mcp-安装) instead. Choose one route; you do not need both.
+
+### 1. Install the Skill
+
+Run this in your terminal and select the agent you use:
+
+```bash
+npx skills add zifacorp/anylover --skill anylover-companion -g
+```
+
+`-g` makes the Skill available across your projects. Omit it for the current project only.
+
+### 2. Let your agent finish setup
+
+Restart the agent or open a new session so it loads the new Skill, then send:
+
+> Use anylover-companion to install and initialize the local AnyLover runtime, then read my companion identity.
+
+The agent installs a private Python environment and reads your companion profile, preserving existing memories and personas. Setup is now complete; do not run `install.sh` as an additional step. Without MCP, the agent uses the local CLI for memory access. This route does not automatically change MCP configuration.
+
+### 3. Start chatting
+
+First check that your agent can read the profile and memory:
+
+> What do you currently remember about me? Tell me about your personality too.
+
+An empty memory store is normal for a new user. After that, just talk naturally; no need to say "use AnyLover" every time:
+
+> Work's been draining lately and I have no idea what to eat tonight.
+
+Agent-specific commands, Skill updates, WorkBuddy, and source installation are in the [advanced installation guide](integrations/README.md).
+
 ## Default persona: sharp-tongued, not cruel
 
 AnyLover's default companion is not a customer-service bot. It has opinions, points out holes in your reasoning, calls out weak excuses, and prefers specific, well-aimed teasing over empty praise — then gives you something actually useful.
 
 The bite has hard limits: no humiliation, no attacks on identity, appearance, trauma, illness, or known insecurities, and never weaponizing private memories. Say stop and it stops immediately.
 
-The default persona applies only to **newly created** companions. Existing data and personas are never silently overwritten by an upgrade or a repeat install. To adopt it explicitly:
+The default persona applies only to **newly created** companions. Existing data and personas are never silently overwritten by an upgrade or a repeat install. To adopt it explicitly after setup, ask your agent to run this (for manual CLI access, see [Inspecting and managing memory](#inspecting-and-managing-memory)):
 
 ```bash
 anylover init \
@@ -74,63 +110,6 @@ anylover init \
   --style "Quick-witted, concise, lightly sarcastic. Specific, clever teasing over generic insults; challenge bad ideas directly and offer a workable alternative. Stop teasing the moment I ask. No customer-service language, no hollow praise." \
   --safety-contract "Always be clear you are an AI. Never humiliate or demean me; never attack identity, appearance, trauma, grief, health, disability, or known insecurities; never weaponize private memories. Never encourage exclusivity, dependency, paid intimacy, or withdrawal from real relationships. Stop immediately when I say stop."
 ```
-
-## AI Agents
-
-Install AnyLover with the portable [Skills CLI](https://github.com/vercel-labs/skills):
-
-```bash
-npx skills add zifacorp/anylover
-```
-
-Installation is project-scoped by default. Add `-g` for all your projects, or target particular agents non-interactively:
-
-```bash
-npx skills add zifacorp/anylover --skill anylover-companion -g -a codex -a claude-code -a cursor -y
-npx skills add zifacorp/anylover --skill anylover-companion -g -a windsurf -a opencode -a gemini-cli -y
-```
-
-This requires Node.js/npm and installs the Skill and its supporting files. Then tell your agent:
-
-> Use anylover-companion to install and initialize the local AnyLover runtime, then read my companion identity.
-
-The Skill includes `scripts/setup.sh`, which installs this project's runtime into a private Python environment without a manual repository checkout. Python 3.11+ and Git are required. Existing memories and personas are preserved. Agents prefer MCP when connected; agents with local shell access can use the same memory through the CLI.
-
-```bash
-npx skills add zifacorp/anylover --list
-npx skills list -g
-npx skills update
-```
-
-## Install the runtime and Agent integration together
-
-Requires macOS or Linux and Python 3.11+. From a cloned AnyLover directory:
-
-```bash
-bash install.sh
-```
-
-The installer detects local agent tools. Codex, Claude Code, and WorkBuddy use native MCP adapters. Cursor, Windsurf, OpenCode, Gemini CLI, GitHub Copilot, OpenClaw, and CodeBuddy use Skills CLI installation and local CLI memory access. It:
-
-- ✅ Creates an isolated Python environment (does not touch system Python)
-- ✅ Initializes the local companion profile and SQLite memory store
-- ✅ Installs the AnyLover Agent Skill
-- ✅ Registers local STDIO MCP for Codex, Claude Code, and WorkBuddy
-- ✅ Creates `anylover` and `anylover-mcp` entry points
-
-Target a single agent, or preview without writing anything:
-
-```bash
-bash install.sh --agent codex     # or: claude, workbuddy
-bash install.sh --agent cursor    # also: windsurf, opencode, gemini-cli, etc.
-bash install.sh --dry-run --agent all
-```
-
-Restart the agent afterward. An existing MCP entry named `anylover` is **never** overwritten unless you pass `--force-agent-config`.
-
-To have an agent install it for you, send it:
-
-> Read `AGENT_INSTALL.md` in the project root and install and verify AnyLover using the default safe procedure.
 
 ## Using it
 
@@ -154,9 +133,9 @@ You can also steer it directly:
 
 | Surface | Status | How |
 |---|---|---|
-| Codex CLI / IDE | ✅ Working | Skill + local STDIO MCP |
+| Codex CLI / IDE | ✅ Working | Skill + local CLI; optional STDIO MCP |
 | ChatGPT desktop | ✅ Working | Shares the MCP config with Codex on the same host |
-| Claude Code | ✅ Working | User-level Skill + STDIO MCP |
+| Claude Code | ✅ Working | User-level Skill + local CLI; optional STDIO MCP |
 | WorkBuddy 5.3.x | ⚠️ Experimental | Adapted to the config layout observed on one machine; restart required after install |
 | Cursor / Windsurf / OpenCode | ✅ Skill installation + CLI | Requires local command execution |
 | Gemini CLI / GitHub Copilot | ✅ Skill installation + CLI | `-a gemini-cli` / `-a github-copilot` |
@@ -175,7 +154,7 @@ AnyLover cannot extend closed products that expose no Skill, Plugin, MCP, Hook, 
 |---|---|
 | Companion + memory database | `~/.anylover/anylover.sqlite3` |
 | Private runtime | `~/.local/share/anylover-runtime/venv` |
-| CLI entry points | `~/.local/bin/anylover` |
+| CLI entry point | `bin/anylover` in the private runtime; the source installer also creates `~/.local/bin/anylover` |
 | Codex Skill | `~/.codex/skills/anylover-companion` |
 | Claude Code Skill | `~/.claude/skills/anylover-companion` |
 | WorkBuddy Skill | `~/.workbuddy/skills/anylover-companion` |

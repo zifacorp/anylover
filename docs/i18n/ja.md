@@ -30,36 +30,35 @@ anylover init \
   --style "簡潔で会話的。具体的な冗談は言うが、人格を傷つけない。やめてと言われたらすぐにやめる。"
 ```
 
-## AI Agent 用 Skill のインストール
+## クイックスタート（推奨）
 
-Skills CLI で AnyLover をインストールできます。
+macOS または Linux、Node.js/npm、Python 3.11+、Git が必要です。ローカルコマンドを実行できる Codex、Claude Code、Cursor などの Agent で使えます。
 
-```bash
-npx skills add zifacorp/anylover
-npx skills add zifacorp/anylover --skill anylover-companion -g -a cursor -a claude-code -y
-```
+WorkBuddy、または MCP の自動設定が必要な場合は、代わりに[ローカル MCP インストール](../../integrations/README.md#本地-mcp-安装)を使ってください。両方を実行する必要はありません。
 
-既定はプロジェクト単位、`-g` はユーザー全体へのインストールです。Codex、Claude Code、Cursor、Windsurf、OpenCode、Gemini CLI、GitHub Copilot、OpenClaw、CodeBuddy などに対応します。Node.js/npm が必要です。
+### 1. Skill をインストール
 
-これは Skill と補助ファイルをインストールします。続いて Agent に「anylover-companion を使ってローカルの実行環境をインストールし、プロフィールを読んで」と依頼してください。同梱の `scripts/setup.sh` が Python 3.11+ と Git を使ってセットアップします。MCP がない場合はローカル CLI を使い、同じ記憶にアクセスします。各 Agent 内の会話動作は今後個別に検証します。
-
-## 実行環境もまとめてインストール
-
-macOS または Linux と Python 3.11 以降が必要です。リポジトリのルートで実行します:
+ターミナルで実行し、使う Agent を選びます。
 
 ```bash
-bash install.sh --agent auto
+npx skills add zifacorp/anylover --skill anylover-companion -g
 ```
 
-対象を限定する場合:
+`-g` はユーザー全体へのインストールです。現在のプロジェクトだけで使う場合は省略します。
 
-```bash
-bash install.sh --agent codex
-bash install.sh --agent claude
-bash install.sh --agent workbuddy
-```
+### 2. Agent に初期設定を依頼
 
-既存の `anylover` MCP エントリは、`--force-agent-config` を明示しない限り上書きされません。インストール後に Agent を再起動してください。
+Agent を再起動するか新しいセッションを開き、次のように依頼します。
+
+> anylover-companion を使ってローカルの実行環境をインストールし、初期設定を行って、私のコンパニオンのプロフィールを読んで。
+
+Agent が専用の Python 実行環境を用意し、既存の人格と記憶を保持します。これで完了です。追加で `install.sh` を実行する必要はありません。MCP 設定は自動変更せず、接続がない場合はローカル CLI を使います。
+
+### 3. 会話を始める
+
+> 私について何を覚えている？あなたの性格も紹介して。
+
+初回は記憶がなくても正常です。以降は自然に会話できます。Agent の指定や更新などは[詳細なインストール手順](../../integrations/README.md)へ。各 Agent アプリ内の会話動作は今後個別に検証します。
 
 ## 使い方
 

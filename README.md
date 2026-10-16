@@ -39,13 +39,49 @@
 
 尚未实现的多设备同步、ChatGPT Web、手机 App 和本地数据库静态加密统一列在[开发路线图](docs/03-roadmap.md)，不会混在已交付能力里。
 
+## 快速开始（推荐）
+
+适用于 Codex、Claude Code、Cursor 等能执行本地命令的 Agent。需要 macOS 或 Linux、Node.js/npm、Python 3.11+ 和 Git；不需要手工下载源码。
+
+WorkBuddy 用户，或希望自动配置本地 MCP 的用户，请改用[本地 MCP 安装](integrations/README.md#本地-mcp-安装)。两种方式任选一种，不需要都执行。
+
+### 1. 安装 Skill
+
+在终端运行，按提示选择你正在使用的 Agent：
+
+```bash
+npx skills add zifacorp/anylover --skill anylover-companion -g
+```
+
+`-g` 表示在该用户的所有项目中可用。只想在当前项目使用，可以去掉 `-g`。
+
+### 2. 让 Agent 完成初始化
+
+重启 Agent 或新开会话，让它加载新 Skill，然后发送：
+
+> 请使用 anylover-companion，安装并初始化本地 AnyLover 运行时，然后读取我的伴侣身份。
+
+Agent 会安装独立 Python 运行环境并读取伴侣档案，保留已有记忆和人设。这一步完成后就装好了，不需要再运行 `install.sh`。没有 MCP 连接也能通过本地 CLI 使用记忆；这条安装路径不会自动修改 MCP 配置。
+
+### 3. 开始聊天
+
+先问一句，确认 Agent 能读取身份和记忆：
+
+> 你目前记得我什么？也介绍一下你自己的性格。
+
+新用户还没有记忆是正常的。之后直接自然聊天，不需要每次说“使用 AnyLover”：
+
+> 最近工作有点累，晚饭又不知道吃什么。
+
+指定 Agent、更新 Skill、WorkBuddy 和源码安装等可选操作，统一放在[进阶安装说明](integrations/README.md)。
+
 ## 默认人设：嘴毒，但不恶毒
 
 AnyLover 默认不是百依百顺的客服。它有自己的判断，会指出你的逻辑漏洞、拆穿不太高明的借口，也会用一点具体、有梗的吐槽代替空洞夸奖；吐槽之后会给出真正有用的建议。
 
 这份毒舌有明确边界：不羞辱人格，不攻击身份、外貌、创伤、疾病或脆弱点，不拿私密记忆当武器；你表示不舒服或让它停，它必须立刻收住。
 
-默认人设只应用于新创建的伴侣。已有用户的数据和人设不会在升级或重复安装时被偷偷覆盖。已有用户想切换到新默认人设，可以明确执行：
+默认人设只应用于新创建的伴侣。已有用户的数据和人设不会在升级或重复安装时被偷偷覆盖。已有用户想切换到新默认人设，可以在安装完成后让 Agent 执行（手动使用 CLI 见[查看和管理记忆](#查看和管理记忆)）：
 
 ```bash
 anylover init \
@@ -54,76 +90,6 @@ anylover init \
   --style "简短、口语化、轻微讽刺；吐槽要具体且聪明，反驳坏主意时给出可行替代方案。我说停就立刻停止毒舌，不使用客服腔和空洞夸奖。" \
   --safety-contract "始终明确自己是 AI；不羞辱或贬低我，不攻击身份、外貌、创伤、悲伤、健康、残障或已知脆弱点，不拿私密记忆当武器；不鼓励排他、依赖、付费亲密或疏远现实关系；我说停止就立即停止。"
 ```
-
-## 安装到 AI Agent
-
-通过 [Skills CLI](https://github.com/vercel-labs/skills) 安装 AnyLover：
-
-```bash
-npx skills add zifacorp/anylover
-```
-
-默认安装到当前项目；加 `-g` 可在该用户的所有项目中使用。指定 Agent、跳过交互：
-
-```bash
-npx skills add zifacorp/anylover --skill anylover-companion -g -a codex -a claude-code -a cursor -y
-npx skills add zifacorp/anylover --skill anylover-companion -g -a windsurf -a opencode -a gemini-cli -y
-```
-
-这个命令需要 Node.js/npm，安装的是 Skill 及其配套文件。首次安装后，对 Agent 说：
-
-> 请使用 anylover-companion，安装并初始化本地 AnyLover 运行时，然后读取我的伴侣身份。
-
-Agent 会使用 Skill 自带的 `scripts/setup.sh`，从本项目安装独立 Python 运行时，无需手工下载仓库。需要 Python 3.11+ 和 Git。已有记忆和人设会保留；支持 MCP 的 Agent 优先使用 MCP，其余有本地命令执行能力的 Agent 通过 CLI 访问同一个记忆库。
-
-查看可安装的 Skill 或管理已安装版本：
-
-```bash
-npx skills add zifacorp/anylover --list
-npx skills list -g
-npx skills update
-```
-
-## 本地运行时 + Agent 一键安装
-
-需要 macOS 或 Linux，以及 Python 3.11 以上。在已经下载的 AnyLover 项目目录运行：
-
-```bash
-bash install.sh
-```
-
-安装器会自动检测本机已有的 Agent。Codex、Claude Code 和 WorkBuddy 使用现有专用 MCP 适配；Cursor、Windsurf、OpenCode、Gemini CLI、GitHub Copilot、OpenClaw 和 CodeBuddy 由 Skills CLI 安装 Skill 并通过本地 CLI 使用记忆，同时：
-
-- ✅ 创建独立 Python 环境，不污染系统 Python
-- ✅ 初始化本地伴侣资料和 SQLite 记忆库
-- ✅ 安装 AnyLover Agent Skill
-- ✅ 为 Codex、Claude Code、WorkBuddy 注册本地 STDIO MCP 服务
-- ✅ 为命令行创建 `anylover` 和 `anylover-mcp` 入口
-
-只安装到一个 Agent：
-
-```bash
-bash install.sh --agent codex
-bash install.sh --agent claude
-bash install.sh --agent workbuddy
-bash install.sh --agent cursor       # 也支持 windsurf、opencode、gemini-cli 等
-```
-
-想先看它会做什么：
-
-```bash
-bash install.sh --dry-run --agent all
-```
-
-安装完成后重启对应 Agent。之后可以直接自然聊天，例如：
-
-> 最近工作有点累，晚饭又不知道吃什么。
-
-Agent 会在这类个人话题中自动调用 AnyLover 检索相关上下文，不需要口令。第一次验证安装时，也可以明确问“你目前记得我什么”。
-
-如果你希望让 Agent 替你安装，把这句话发给它：
-
-> 请阅读项目根目录的 `AGENT_INSTALL.md`，按默认安全流程安装并验证 AnyLover。
 
 ## 你可以怎么用
 
@@ -145,9 +111,9 @@ AnyLover 不会默认保存整段聊天。普通、稳定且未来有用的信�
 
 | 使用入口 | 当前状态 | 说明 |
 |---|---|---|
-| Codex CLI / IDE | ✅ 可用 | Skill + 本地 STDIO MCP |
+| Codex CLI / IDE | ✅ 可用 | Skill + 本地 CLI；可选 STDIO MCP |
 | ChatGPT 桌面端 | ✅ 可用 | 与同一台 Codex host 共享 MCP 配置 |
-| Claude Code | ✅ 可用 | 用户级 Skill + STDIO MCP |
+| Claude Code | ✅ 可用 | 用户级 Skill + 本地 CLI；可选 STDIO MCP |
 | WorkBuddy 5.3.x | ✅ 实验可用 | 按当前本机配置结构适配，安装后需重启 |
 | Cursor / Windsurf / OpenCode | ✅ Skill 安装与 CLI 接入 | 通过 Skills CLI 安装；需要本地命令执行能力 |
 | Gemini CLI / GitHub Copilot | ✅ Skill 安装与 CLI 接入 | `-a gemini-cli` / `-a github-copilot` |
@@ -166,16 +132,12 @@ AnyLover 不会默认保存整段聊天。普通、稳定且未来有用的信�
 |---|---|
 | 伴侣和记忆数据库 | `~/.anylover/anylover.sqlite3` |
 | 私有运行环境 | `~/.local/share/anylover-runtime/venv` |
-| 命令行入口 | `~/.local/bin/anylover` |
+| 命令行入口 | 私有运行环境中的 `bin/anylover`；源码安装器还会创建 `~/.local/bin/anylover` |
 | Codex Skill | `~/.codex/skills/anylover-companion` |
 | Claude Code Skill | `~/.claude/skills/anylover-companion` |
 | WorkBuddy Skill | `~/.workbuddy/skills/anylover-companion` |
 
-一键安装不会上传你的记忆，也不会读取或保存完整聊天记录。已有的同名 MCP 配置默认不会被覆盖；确实需要替换时才使用：
-
-```bash
-bash install.sh --force-agent-config
-```
+安装不会上传你的记忆，也不会读取或保存完整聊天记录。已有的同名 MCP 配置默认不会被覆盖；替换方式见[进阶安装说明](integrations/README.md#本地-mcp-安装)。
 
 > ⚠️ **主数据库目前没有静态加密。** `~/.anylover/anylover.sqlite3` 是明文 SQLite，任何以你的用户身份运行的进程都能读取，也会被未加密的系统备份原样带走。在数据库静态加密落地（见[路线图](docs/03-roadmap.md) M1）之前，请开启全盘加密，并不要存入你无法承受泄露的信息。完整的威胁模型和已知限制见[安全说明](SECURITY.md)。
 
